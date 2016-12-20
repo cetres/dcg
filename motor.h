@@ -1,11 +1,11 @@
 /*
   motor.h - Gerenciamento do motor
 
-   Stepper Motor Driver Module (28BYJ-48):
-   IN1 >> D8
-   IN2 >> D9
-   IN3 >> D10
-   IN4 >> D11
+  Stepper Motor Driver Module (28BYJ-48):
+    IN1 >> D8
+    IN2 >> D9
+    IN3 >> D10
+    IN4 >> D11
   
 */
 #ifndef _MOTOR_H

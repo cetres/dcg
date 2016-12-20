@@ -1,9 +1,9 @@
 /*
   tela.h - Gerenciamento do motor
 
- Display (0.96 128x64 I2C - SSD1306):
-   SDA >> A4
-   SCL >> A5
+  Display (0.96 128x64 I2C - SSD1306):
+    SDA >> A4
+    SCL >> A5
   
 */
 #ifndef _TELA_H

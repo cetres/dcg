@@ -22,10 +22,10 @@ void Tela::titulo() {
   _u8g.firstPage();  
   do {
     _u8g.setFont(u8g_font_osb21);
-    _u8g.drawStr( 0, 22, "Nespresso");
-    _u8g.drawStr( 20, 52, "GEINF");
+    _u8g.drawStr(0, 22, "Nespresso");
+    _u8g.drawStr(20, 52, "GEINF");
     _u8g.setFont(u8g_font_unifont);
-    _u8g.drawStr( 96, 64, "2016");
+    _u8g.drawStr(96, 64, "2016");
   } while ( _u8g.nextPage() );
 }
 
@@ -41,7 +41,7 @@ void Tela::contgem(int passos, boolean direcao) {
       sprintf(dir_str, "Direcao: CW");
     }
     _u8g.setFont(u8g_font_unifont);
-    _u8g.drawStr( 0, 22, num_str);
-    _u8g.drawStr( 0, 38, dir_str);
+    _u8g.drawStr(0, 22, num_str);
+    _u8g.drawStr(0, 38, dir_str);
   } while ( _u8g.nextPage() );
 }
