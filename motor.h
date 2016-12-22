@@ -18,8 +18,8 @@
 #define STEPS_IN3    B00001110
 #define STEPS_IN4    B10000011
 
-#define STEPS_TURN 4095
-#define STEP_INTERVAL 1000
+#define STEPS_TURN        4095
+#define STEP_INTERVAL     1000
 
 class Motor {
   private:

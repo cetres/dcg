@@ -7,19 +7,30 @@
 #include "motor.h"
 #include "radio.h"
 
-#define DEBUG_BAUD 115200
-#define TELA_SDA        4
-#define TELA_SCL        5
-#define MOTOR_IN1       8
-#define MOTOR_IN2       9
-#define MOTOR_IN3      10
-#define MOTOR_IN4      11
-#define RADIO_RX       12
-#define RADIO_TX       13
+#define DEBUG_BAUD          115200
+#define RADIO_INIT_TIME       5000  // Aguardar 5 seg. para inicializar o modulo Bluetooth
+#define RADIO_NOME      "Nespresso"
+#define RADIO_SENHA           1234
+
+#define TELA_SDA                 4
+#define TELA_SCL                 5
+#define MOTOR_IN1                8
+#define MOTOR_IN2                9
+#define MOTOR_IN3               10
+#define MOTOR_IN4               11
+#define RADIO_RX                12
+#define RADIO_TX                13
+
+#ifdef DEBUG
+boolean debug = true;
+#else
+boolean debug = false;
+#endif
 
 Tela tela;
 Motor motor(MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4);
-Radio radio(RADIO_RX, RADIO_TX);
+Radio radio(RADIO_RX, RADIO_TX, debug);
+boolean radio_inicializado = false;
 
 void setup(void) {
 #ifdef DEBUG
@@ -28,11 +39,15 @@ void setup(void) {
 }
 
 void loop(void) {
-  if (motor.estaParado()) {
+  if (!radio_inicializado) {
+    if (millis() > RADIO_INIT_TIME) {
 #ifdef DEBUG
-  Serial.println(time);
-  Serial.println("Iniciando...");
+      Serial.println("Iniciando Radio...");
 #endif 
+      radio_inicializado = radio.init(RADIO_NOME, RADIO_SENHA);
+    }
+  }
+  if (motor.estaParado()) {
     tela.titulo();
     delay(2000);
     motor.rotacao(90);
