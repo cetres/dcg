@@ -13,28 +13,28 @@
 
 #include <Arduino.h>
 
-#define MOTOR_IN1 8
-#define MOTOR_IN2 9
-#define MOTOR_IN3 10
-#define MOTOR_IN4 11
+#define STEPS_IN1    B11100000
+#define STEPS_IN2    B00111000
+#define STEPS_IN3    B00001110
+#define STEPS_IN4    B10000011
 
 #define STEPS_TURN 4095
 #define STEP_INTERVAL 1000
 
 class Motor {
   private:
+    uint8_t _in1, _in2, _in3, _in4;
     boolean _direcaoHoraria;
     unsigned long _lastTime;
-    int _steps;
+    byte _steps;
     int _stepsLeft;
 
   protected:
     void direcao();
-    void stepper(int xw);
+    void stepper(uint8_t xw);
 
   public:
-    Motor();
-    void setup();
+    Motor(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
     void roda();
     void rotacao(float graus);
     boolean estaParado();

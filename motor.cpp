@@ -5,18 +5,19 @@
 */
 #include "motor.h"
 
-Motor::Motor() {
+Motor::Motor(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4) {
   _direcaoHoraria = true;
   _lastTime = millis();
   _steps = 0;
   _stepsLeft = 0;
-}
-
-void Motor::setup() {
-  pinMode(MOTOR_IN1, OUTPUT);
-  pinMode(MOTOR_IN2, OUTPUT);
-  pinMode(MOTOR_IN3, OUTPUT);
-  pinMode(MOTOR_IN4, OUTPUT);
+  _in1 = in1;
+  _in2 = in2;
+  _in3 = in3;
+  _in4 = in4;
+  pinMode(_in1, OUTPUT);
+  pinMode(_in2, OUTPUT);
+  pinMode(_in3, OUTPUT);
+  pinMode(_in4, OUTPUT);
 }
 
 void Motor::direcao() {
@@ -32,64 +33,12 @@ void Motor::direcao() {
   }
 }
 
-void Motor::stepper(int xw) {
-  for (int x=0; x<xw; x++) {
-    switch(_steps) {
-      case 0:
-        digitalWrite(MOTOR_IN1, LOW); 
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, HIGH);
-        break; 
-      case 1:
-        digitalWrite(MOTOR_IN1, LOW); 
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, HIGH);
-        digitalWrite(MOTOR_IN4, HIGH);
-        break; 
-      case 2:
-        digitalWrite(MOTOR_IN1, LOW); 
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, HIGH);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-      case 3:
-        digitalWrite(MOTOR_IN1, LOW); 
-        digitalWrite(MOTOR_IN2, HIGH);
-        digitalWrite(MOTOR_IN3, HIGH);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-      case 4:
-        digitalWrite(MOTOR_IN1, LOW); 
-        digitalWrite(MOTOR_IN2, HIGH);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-      case 5:
-        digitalWrite(MOTOR_IN1, HIGH); 
-        digitalWrite(MOTOR_IN2, HIGH);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-      case 6:
-        digitalWrite(MOTOR_IN1, HIGH); 
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-      case 7:
-        digitalWrite(MOTOR_IN1, HIGH); 
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, HIGH);
-        break; 
-      default:
-        digitalWrite(MOTOR_IN1, LOW);
-        digitalWrite(MOTOR_IN2, LOW);
-        digitalWrite(MOTOR_IN3, LOW);
-        digitalWrite(MOTOR_IN4, LOW);
-        break; 
-    }
+void Motor::stepper(uint8_t xw) {
+  for (uint8_t x=0; x<xw; x++) {
+    digitalWrite(_in1, STEPS_IN1 & ( 1 << _steps ));
+    digitalWrite(_in2, STEPS_IN2 & ( 1 << _steps ));
+    digitalWrite(_in3, STEPS_IN3 & ( 1 << _steps ));
+    digitalWrite(_in4, STEPS_IN4 & ( 1 << _steps ));
     direcao();
   }
 }
