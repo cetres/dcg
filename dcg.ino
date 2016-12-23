@@ -72,10 +72,8 @@ void loop(void) {
     motor.rotacao(90);
   } else {
 #ifdef DEBUG
-    char sentido;
     char saida[50];
-    
-    sprintf(saida, "Graus: %0.1f / Sentido: %c\n", motor.grausRestantes(), sentido);
+    sprintf(saida, "Graus: %0.1f / Sentido: %c\n", motor.grausRestantes(), motor.direcao());
     logger("MOTOR", saida);
 #endif 
     tela.contagem(motor.grausRestantes(), motor.direcaoHoraria());
