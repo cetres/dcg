@@ -62,6 +62,14 @@ boolean Motor::estaParado() {
   return (_stepsLeft == 0);
 }
 
+char direcao() {
+  if (direcaoHoraria()) {
+      return "H";
+    } else {
+      return "A";
+    }
+}
+
 boolean Motor::direcaoHoraria() {
   return _direcaoHoraria;
 }

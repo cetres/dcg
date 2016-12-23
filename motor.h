@@ -39,6 +39,7 @@ class Motor {
     void rotacao(float graus);
     boolean estaParado();
     boolean direcaoHoraria();
+    char direcao();
     float grausRestantes();
 };
 

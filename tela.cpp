@@ -29,7 +29,7 @@ void Tela::titulo() {
   } while ( _u8g.nextPage() );
 }
 
-void Tela::contgem(int passos, boolean direcao) {
+void Tela::contagem(int passos, boolean direcao) {
   _u8g.firstPage();  
   do {
     char num_str[15];

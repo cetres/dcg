@@ -19,7 +19,7 @@ class Tela {
   public:
     Tela();
     void titulo();
-    void contgem(int passos, boolean direcao);
+    void contagem(int passos, boolean direcao);
 };
 
 #endif /* _TELA_H */
