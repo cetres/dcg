@@ -11,13 +11,15 @@
 
 #include <Arduino.h>
 #include <U8glib.h>
+#include "logger.h"
 
 class Tela {
   private:
     U8GLIB_SSD1306_128X64 _u8g;
+    boolean _debug;
 
   public:
-    Tela();
+    Tela(boolean debug = true);
     void titulo();
     void contagem(int passos, boolean direcao);
 };

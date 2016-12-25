@@ -1,8 +1,9 @@
 /*
- dcg.ino
- Distribuidor de cafe GEINF
- 
+  dcg.ino
+  Distribuidor de cafe GEINF
+
 */
+#include "logger.h"
 #include "tela.h"
 #include "motor.h"
 #include "radio.h"
@@ -30,25 +31,15 @@ boolean debug = false;
 #endif
 
 Tela tela;
-Motor motor(MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4);
+Motor motor(MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4, false);
 Radio radio(RADIO_RX, RADIO_TX, debug);
 boolean radio_inicializado = false;
 unsigned int radio_tentativa = 0;
 
-#ifdef DEBUG
-void logger(char* modulo, char* conteudo) {
-  char saida[80];
-  char tempo[8];
-  dtostrf(millis()/1000), 5, 3, tempo);
-  sprintf(saida, "%s [%s] %s\n", (tempo, modulo, conteudo);
-  Serial.print(saida);
-}
-#endif
-
 void setup(void) {
 #ifdef DEBUG
   Serial.begin(DEBUG_BAUD);
-  logger("SETUP", "Executando...");
+  Logger::log("SETUP", "Executando...");
 #endif
   tela.titulo();
 }
@@ -56,28 +47,17 @@ void setup(void) {
 void loop(void) {
   unsigned int agora = millis();
   if (!radio_inicializado) {
-    if (agora > RADIO_INIT_TIME && (radio_tentativa + 2000) > agora) {
-#ifdef DEBUG
-      logger("RADIO", "Inicializando...");
-#endif 
+    if (agora > RADIO_INIT_TIME && agora > (radio_tentativa + 2000)) {
       radio_inicializado = radio.init(RADIO_NOME, RADIO_SENHA);
       radio_tentativa = agora;
     }
   }
   if (motor.estaParado()) {
-#ifdef DEBUG
-    logger("MOTOR", "Motor parado. Iniciando");
-#endif 
-    delay(2000);
-    motor.rotacao(90);
-  } else {
-#ifdef DEBUG
-    char saida[50];
-    sprintf(saida, "Graus: %0.1f / Sentido: %c\n", motor.grausRestantes(), motor.direcao());
-    logger("MOTOR", saida);
-#endif 
+    delay(20000);
+    motor.rotacao(30);
     tela.contagem(motor.grausRestantes(), motor.direcaoHoraria());
+  } else {
+    motor.roda();
   }
-  motor.roda();
 }
 

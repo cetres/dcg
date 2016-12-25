@@ -12,6 +12,7 @@
 #define _MOTOR_H
 
 #include <Arduino.h>
+#include "logger.h"
 
 #define STEPS_IN1    B11100000
 #define STEPS_IN2    B00111000
@@ -28,13 +29,15 @@ class Motor {
     unsigned long _lastTime;
     byte _steps;
     int _stepsLeft;
+    boolean _debug;
+    int _ultimoGrau;              // guarda o ultimo grau inteiro. Utilizado para debug
 
   protected:
-    void direcao();
+    void stepperDirection();
     void stepper(uint8_t xw);
 
   public:
-    Motor(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
+    Motor(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4, boolean debug = false);
     void roda();
     void rotacao(float graus);
     boolean estaParado();

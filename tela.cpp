@@ -5,7 +5,11 @@
 */
 #include "tela.h"
 
-Tela::Tela() {
+Tela::Tela(boolean debug) {
+  _debug = debug;
+  if (_debug) {
+      Serial.println("[TELA] : Inicializando...");
+  }
   U8GLIB_SSD1306_128X64 _u8g(U8G_I2C_OPT_NONE|U8G_I2C_OPT_DEV_0);
   if ( _u8g.getMode() == U8G_MODE_R3G3B2 ) {
     _u8g.setColorIndex(255);     // white
@@ -19,6 +23,9 @@ Tela::Tela() {
 }
 
 void Tela::titulo() {
+  if (_debug) {
+      Logger::log("TELA", "Exibindo tela inicial do titulo");
+  }
   _u8g.firstPage();  
   do {
     _u8g.setFont(u8g_font_osb21);
