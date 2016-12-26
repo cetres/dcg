@@ -15,14 +15,16 @@
 #define RADIO_NOME      "Nespresso"
 #define RADIO_SENHA           1234
 
-#define TELA_SDA                 4
-#define TELA_SCL                 5
-#define MOTOR_IN1                8
-#define MOTOR_IN2                9
-#define MOTOR_IN3               10
-#define MOTOR_IN4               11
-#define RADIO_RX                12
-#define RADIO_TX                13
+#define TELA_SDA                 4    //A4
+#define TELA_SCL                 5    //A5
+
+#define RADIO_KEY                7    //D7
+#define MOTOR_IN1                8    //D8
+#define MOTOR_IN2                9    //D9
+#define MOTOR_IN3               10    //D10
+#define MOTOR_IN4               11    //D11
+#define RADIO_RX                12    //D12
+#define RADIO_TX                13    //D13
 
 #ifdef DEBUG
 boolean debug = true;
@@ -30,9 +32,9 @@ boolean debug = true;
 boolean debug = false;
 #endif
 
-Tela tela;
+Tela tela(debug);
 Motor motor(MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4, false);
-Radio radio(RADIO_RX, RADIO_TX, debug);
+Radio radio(RADIO_RX, RADIO_TX, RADIO_KEY, debug);
 unsigned int radio_init = 0;
 
 void setup(void) {

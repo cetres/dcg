@@ -5,8 +5,10 @@
 */
 #include "radio.h"
 
-Radio::Radio(uint8_t rxPin, uint8_t txPin, boolean debug) : _serial(rxPin, txPin) {
+Radio::Radio(uint8_t rxPin, uint8_t txPin, uint8_t keyPin, boolean debug) : _serial(rxPin, txPin) {
+  _keyPin = keyPin;
   _debug = debug;
+  _modoAT = false;
   if (_debug) {
       Logger::log("RADIO", "Inicializando");
   }
@@ -14,8 +16,27 @@ Radio::Radio(uint8_t rxPin, uint8_t txPin, boolean debug) : _serial(rxPin, txPin
   _initSenha = false;
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
+  pinMode(keyPin, OUTPUT);
   _serial.begin(START_BAUD);
   _serial.setTimeout(AT_COMMAND_TIMEOUT);
+}
+
+void Radio::modoAT(boolean estado) {
+  if (estado) {
+    if (_debug) {
+      Logger::log("RADIO", "Entrando no modo AT");
+    }
+    digitalWrite(_keyPin, HIGH);
+    delay(1000);
+    digitalWrite(_keyPin, LOW);
+    _modoAT = true;
+  } else {
+    enviarComandoAT("AT+RESET");
+    if (_debug) {
+      Logger::log("RADIO", "Saindo no modo AT");
+    }
+    _modoAT = false;
+  }
 }
 
 boolean Radio::initComm() {
@@ -69,6 +90,9 @@ boolean Radio::enviarComandoAT(String comando) {
 }
 
 boolean Radio::init(String nome, int senha) {
+  if (!_modoAT) {
+    modoAT(true);
+  }
   if (! initComm()) {
     return false;
   }
@@ -82,6 +106,7 @@ boolean Radio::init(String nome, int senha) {
       return false;
     }
   }
+  modoAT(false);
   return true;
 }
 

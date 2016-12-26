@@ -23,10 +23,10 @@ Motor::Motor(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4, boolean debug) 
 }
 
 void Motor::stepperDirection() {
-  if (_direcaoHoraria == 1) {
-    _steps++;
-  } else if (_direcaoHoraria == 0) {
+  if (_direcaoHoraria == true) {
     _steps--;
+  } else if (_direcaoHoraria == false) {
+    _steps++;
   }
   if (_steps > 7) {
     _steps = 0;

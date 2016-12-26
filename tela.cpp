@@ -7,12 +7,12 @@
 
 Tela::Tela(boolean debug) {
   _debug = debug;
-  if (_debug) {
-      Serial.println("[TELA] : Inicializando...");
-  }
 }
 
 void Tela::init() {
+  if (_debug) {
+      Logger::log("TELA", "Inicializando...");
+  }
    _u8g = U8GLIB_SSD1306_128X64(U8G_I2C_OPT_NONE|U8G_I2C_OPT_DEV_0);
   if ( _u8g.getMode() == U8G_MODE_R3G3B2 ) {
     _u8g.setColorIndex(255);     // white
@@ -39,18 +39,20 @@ void Tela::titulo() {
 }
 
 void Tela::contagem(int passos, boolean direcao) {
+  if (_debug) {
+      Logger::log("TELA", "Exibindo tela de contagem");
+  }
   _u8g.firstPage();  
   do {
     char num_str[15];
-    char dir_str[15];
-    sprintf(num_str, "Passos: %04d", passos);
+    char dir_str[3];
     if (direcao) {
-      sprintf(dir_str, "Direcao: CCW");
+      sprintf(dir_str, "H");
     } else {
-      sprintf(dir_str, "Direcao: CW");
+      sprintf(dir_str, "AH");
     }
+    sprintf(num_str, "Graus: %04d / Dir: %s", passos, dir_str);
     _u8g.setFont(u8g_font_unifont);
     _u8g.drawStr(0, 22, num_str);
-    _u8g.drawStr(0, 38, dir_str);
   } while ( _u8g.nextPage() );
 }
