@@ -65,7 +65,9 @@ void Motor::roda() {
 
 void Motor::rotacao(float graus) {
   if (_debug) {
-    Logger::log("MOTOR", "Iniciando. Graus: " + graus);
+    char graus_str[8];
+    dtostrf(graus, 5, 3, graus_str);
+    Logger::log("MOTOR", "Iniciando. Graus: " + String(graus_str));
   }
   _stepsLeft = (graus/360) * STEPS_TURN;
   _direcaoHoraria = (graus > 0)? true : false;

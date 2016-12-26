@@ -10,7 +10,10 @@ Tela::Tela(boolean debug) {
   if (_debug) {
       Serial.println("[TELA] : Inicializando...");
   }
-  U8GLIB_SSD1306_128X64 _u8g(U8G_I2C_OPT_NONE|U8G_I2C_OPT_DEV_0);
+}
+
+void Tela::init() {
+   _u8g = U8GLIB_SSD1306_128X64(U8G_I2C_OPT_NONE|U8G_I2C_OPT_DEV_0);
   if ( _u8g.getMode() == U8G_MODE_R3G3B2 ) {
     _u8g.setColorIndex(255);     // white
   } else if ( _u8g.getMode() == U8G_MODE_GRAY2BIT ) {
@@ -21,7 +24,6 @@ Tela::Tela(boolean debug) {
     _u8g.setHiColorByRGB(255,255,255);
   }
 }
-
 void Tela::titulo() {
   if (_debug) {
       Logger::log("TELA", "Exibindo tela inicial do titulo");

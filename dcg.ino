@@ -33,28 +33,30 @@ boolean debug = false;
 Tela tela;
 Motor motor(MOTOR_IN1, MOTOR_IN2, MOTOR_IN3, MOTOR_IN4, false);
 Radio radio(RADIO_RX, RADIO_TX, debug);
-boolean radio_inicializado = false;
-unsigned int radio_tentativa = 0;
+unsigned int radio_init = 0;
 
 void setup(void) {
 #ifdef DEBUG
   Serial.begin(DEBUG_BAUD);
   Logger::log("SETUP", "Executando...");
 #endif
+  radio_init = millis() + RADIO_INIT_TIME;
+  tela.init();
   tela.titulo();
 }
 
 void loop(void) {
   unsigned int agora = millis();
-  if (!radio_inicializado) {
-    if (agora > RADIO_INIT_TIME && agora > (radio_tentativa + 2000)) {
-      radio_inicializado = radio.init(RADIO_NOME, RADIO_SENHA);
-      radio_tentativa = agora;
+  if (! radio.estaInicializado()) {
+    if (agora > radio_init) {
+      if (!radio.init(RADIO_NOME, RADIO_SENHA)) {
+        radio_init = agora + RADIO_INIT_TIME;
+      }
     }
   }
   if (motor.estaParado()) {
-    delay(20000);
-    motor.rotacao(30);
+    delay(2000);
+    //motor.rotacao(30);
     tela.contagem(motor.grausRestantes(), motor.direcaoHoraria());
   } else {
     motor.roda();

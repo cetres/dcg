@@ -20,6 +20,7 @@ class Tela {
 
   public:
     Tela(boolean debug = true);
+    void init();
     void titulo();
     void contagem(int passos, boolean direcao);
 };
